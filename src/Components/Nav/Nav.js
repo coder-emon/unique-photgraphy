@@ -1,4 +1,4 @@
-import { Button, Navbar } from 'flowbite-react';
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -17,11 +17,18 @@ const Nav = () => {
                         <li className="flex">
                             <Link rel="noopener noreferrer" to="/services" className="flex items-center px-4 -mb-1 ">Services</Link>
                         </li>
+
                         <li className="flex">
-                            <Link rel="noopener noreferrer" to="/" className="flex items-center px-4 -mb-1 ">About</Link>
+                            <Link rel="noopener noreferrer" to="/contact" className="flex items-center px-4 -mb-1 ">Contact</Link>
                         </li>
                         <li className="flex">
-                            <Link rel="noopener noreferrer" to="/" className="flex items-center px-4 -mb-1 ">Contact</Link>
+                            <Link rel="noopener noreferrer" to="/addservice" className="flex items-center px-4 -mb-1 ">Add Service</Link>
+                        </li>
+                        <li className="flex">
+                            <Link rel="noopener noreferrer" to="/services-manager" className="flex items-center px-4 -mb-1 ">My Services</Link>
+                        </li>
+                        <li className="flex">
+                            <Link rel="noopener noreferrer" to="/reviews" className="flex items-center px-4 -mb-1 ">My Reviews</Link>
                         </li>
                     </ul>
                     <div className="items-center flex-shrink-0 hidden lg:flex">
