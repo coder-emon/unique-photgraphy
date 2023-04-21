@@ -7,6 +7,7 @@ import { AuthContext } from '../../Context/Auth.Context';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
+import { toast } from 'react-hot-toast';
 const schema = yup.object().shape({
     name: yup.string().required(),
     email: yup.string().email().required(),
@@ -25,11 +26,12 @@ const Register = () => {
                 const user = result.user
                 updateUser(data.name)
                     .then(() => {
-                        alert("user updated successfully")
+                        toast.success("User created successfully")
                     })
                 setUser(user)
             })
             .catch((error) => {
+                toast.error(error.message)
                 console.error(error);
             })
         e.target.reset()
@@ -41,9 +43,11 @@ const Register = () => {
             .then((result) => {
                 const user = result.user
                 setUser(user)
+                toast.success(`Login successful to ${user.displayName}`)
             })
             .catch((error) => {
                 console.error(error);
+                toast.error(error.message)
             })
         setLoading(false);
     }
