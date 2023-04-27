@@ -15,8 +15,8 @@ const AddService = () => {
             description,
             imgurl,
             price,
-            email: user.email,
-            username: user.displayName
+            email: user?.email,
+            username: user?.displayName
         }
         console.log(service);
         fetch("http://localhost:5000/services/", {

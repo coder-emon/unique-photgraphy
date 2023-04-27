@@ -8,7 +8,7 @@ const Services = ({ quantity }) => {
             .then(res => res.json())
             .then(data => setServices(data))
     }, [])
-    console.log(services)
+
     return (
         <>
             <h1 className='text-center text-5xl font-bold mb-5'>My Services</h1>

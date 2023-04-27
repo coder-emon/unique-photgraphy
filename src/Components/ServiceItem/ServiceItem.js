@@ -11,7 +11,7 @@ const ServiceItem = ({ service }) => {
 
 
                 >
-                    <img src={imgurl} className='object-cover h-44' />
+                    <img src={imgurl} alt={title} className='object-cover h-44' />
 
                     <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
                         {title}
@@ -67,7 +67,7 @@ const ServiceItem = ({ service }) => {
                             ${price}
                         </span>
                         <Link
-                            to={`http://localhost:5000/service/${_id}`}
+                            to={`http://localhost:3000/service/${_id}`}
                             className="rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                         >
                             Details
