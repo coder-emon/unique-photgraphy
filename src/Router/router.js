@@ -9,6 +9,9 @@ import PrivateRoute from "./PrivateRoute";
 import Services from "../Components/Services/Services";
 import MyServices from "../Pages/MyServices/MyServices";
 import ServiceDetails from "../Components/ServiceDetails/ServiceDetails";
+import MyReviews from "../Pages/MyReviews/MyReviews";
+import EditService from "../Pages/EditService/EditService";
+
 
 export const router = createBrowserRouter([
     {
@@ -46,8 +49,15 @@ export const router = createBrowserRouter([
             {
                 path: "/services-manager",
                 element: <MyServices></MyServices>
+            },
+            {
+                path: "/reviews",
+                element: <MyReviews></MyReviews>
+            },
+            {
+                path: "/service-edit/:id",
+                element: <EditService></EditService>
             }
-
         ]
     }
 ])

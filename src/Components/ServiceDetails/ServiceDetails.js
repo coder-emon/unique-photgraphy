@@ -1,40 +1,61 @@
 import { Card, Label, Textarea } from 'flowbite-react';
 import React, { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import {  useNavigate, useParams } from 'react-router-dom';
 
 import { FaStar } from 'react-icons/fa';
 import { AuthContext } from '../../Context/Auth.Context';
 import StartRating from '../StarRating/StarRating';
+import { toast } from 'react-hot-toast';
 
 const ServiceDetails = () => {
     const { id } = useParams()
     const { user } = useContext(AuthContext)
-
+    const navigate = useNavigate()
     const [rating, setRating] = useState(null)
     const [hover, setHover] = useState(null)
     const [service, setService] = useState({})
     const [reviews, setReviews] = useState([])
+    const [isUpdate, setIsUpdate] = useState(false)
     useEffect(() => {
         fetch(`http://localhost:5000/service/${id}`)
             .then(res => res.json())
-            .then(data => setService(data))
-    }, [id])
+            .then(data => {
+                setService(data)
+                setIsUpdate(false)
+            })
+    }, [id, isUpdate])
 
-    const { _id, title, description, imgurl, price } = service
-    const date = new Date().getTime()
+    const { _id, title, description, imgurl, price, avgRating } = service
+    const dateNum = new Date().getTime()
+    const dateFull = new Date()
+    let sum
+    let SumAvgRating = {}
+    if(reviews){
+         sum = reviews.map(item => item.rating).reduce((prev, next) => prev + next, 0);
+         SumAvgRating = {
+            avgRating:Number(sum / reviews.length).toFixed(1)
+         }
+    }
     const handleReview = (e) => {
         e.preventDefault()
+        if(!user){
+            navigate("/login")
+            toast.error("Please login to add review")
+            return 
+        }
+        setIsUpdate(true)
         const form = e.target
         const review_description = form.description.value
         const reviewDetails = {
             service_id: _id,
             service_title: title,
             review_description,
-            username: user.displayName,
-            usermail: user.email,
-            userimg: user.photoURL,
+            username: user?.displayName,
+            usermail: user?.email,
+            userimg: user?.photoURL,
             rating,
-            date
+            dateNum,
+            dateFull
 
         }
         fetch("http://localhost:5000/reviews/", {
@@ -48,6 +69,17 @@ const ServiceDetails = () => {
             .then(data => {
                 console.log(data)
             })
+        fetch(`http://localhost:5000/service/${id}`, {
+            method: "PATCH",
+            headers: {
+                "content-type": "application/json",
+            },
+            body: JSON.stringify(SumAvgRating)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+            })
 
         form.reset()
     }
@@ -56,9 +88,12 @@ const ServiceDetails = () => {
             .then(res => res.json())
             .then(data => {
                 setReviews(data)
+                setIsUpdate(false)
                 console.log(data);
             })
-    }, [id])
+    }, [id,isUpdate])
+    
+   
     return (
         <div>
             <div className="">
@@ -74,48 +109,9 @@ const ServiceDetails = () => {
                     <p>{description}</p>
                     <div className="mt-2.5 mb-5 flex justify-between items-center">
                         <div className='flex'>
-                            <svg
-                                className="h-5 w-5 text-yellow-300"
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                            </svg>
-                            <svg
-                                className="h-5 w-5 text-yellow-300"
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                            </svg>
-                            <svg
-                                className="h-5 w-5 text-yellow-300"
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                            </svg>
-                            <svg
-                                className="h-5 w-5 text-yellow-300"
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                            </svg>
-                            <svg
-                                className="h-5 w-5 text-yellow-300"
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                            </svg>
-                            <span className="mr-2 ml-3 rounded bg-blue-100 px-2.5 py-0.5 text-xs font-semibold text-blue-800 dark:bg-blue-200 dark:text-blue-800">
-                                5.0
+                           <StartRating stars={avgRating}></StartRating>
+                            <span className="flex items-center mr-2 ml-3 rounded bg-blue-100 px-2.5 py-0.5 text-xs font-semibold text-blue-800 dark:bg-blue-200 dark:text-blue-800">
+                                {avgRating ? avgRating : "0.0"}
                             </span>
                         </div>
                         <span className="text-3xl font-bold text-gray-900 dark:text-white">
