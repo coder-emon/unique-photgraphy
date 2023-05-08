@@ -1,7 +1,7 @@
 # Getting Started with Create React App
 
 ## This is about service review site. This is create for a assignment of programming hero.
-
+Your can add services to this site, update service, delete service and add review on service and edit review. 
 This project was Flowbite React with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
