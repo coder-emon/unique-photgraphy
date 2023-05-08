@@ -1,6 +1,8 @@
 # Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## This is about service review site. This is create for a assignment of programming hero.
+
+This project was Flowbite React with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
