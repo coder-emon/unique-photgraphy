@@ -24,20 +24,24 @@ const ServiceDetails = () => {
                 setIsUpdate(false)
             })
     }, [id, isUpdate])
-
+    useEffect(() => {
+        fetch(`http://localhost:5000/review/${id}`)
+            .then(res => res.json())
+            .then(data => {
+                setReviews(data)
+                setIsUpdate(false)
+                console.log(data);
+            })
+    }, [id,isUpdate])
     const { _id, title, description, imgurl, price, avgRating } = service
     const dateNum = new Date().getTime()
     const dateFull = new Date()
     let sum
     let SumAvgRating = {}
-    if(reviews){
-         sum = reviews.map(item => item.rating).reduce((prev, next) => prev + next, 0);
-         SumAvgRating = {
-            avgRating:Number(sum / reviews.length).toFixed(1)
-         }
-    }
+   
     const handleReview = (e) => {
         e.preventDefault()
+        
         if(!user){
             navigate("/login")
             toast.error("Please login to add review")
@@ -69,6 +73,18 @@ const ServiceDetails = () => {
             .then(data => {
                 console.log(data)
             })
+
+
+            if(reviews){
+                const updatedReviews = [...reviews, reviewDetails ]
+                sum = updatedReviews.map(item => item.rating).reduce((prev, next) => prev + next, 0);
+                console.log(sum)
+                
+                    SumAvgRating = {
+                        avgRating:Number(sum / updatedReviews.length).toFixed(1)
+                     }
+                
+           }
         fetch(`http://localhost:5000/service/${id}`, {
             method: "PATCH",
             headers: {
@@ -80,20 +96,8 @@ const ServiceDetails = () => {
             .then(data => {
                 console.log(data)
             })
-
         form.reset()
     }
-    useEffect(() => {
-        fetch(`http://localhost:5000/review/${id}`)
-            .then(res => res.json())
-            .then(data => {
-                setReviews(data)
-                setIsUpdate(false)
-                console.log(data);
-            })
-    }, [id,isUpdate])
-    
-   
     return (
         <div>
             <div className="">
@@ -121,7 +125,8 @@ const ServiceDetails = () => {
                     <div>
                         {reviews.map(review => <div key={review._id} className='flex justify-between items-center gap-5 border border-gray-300 p-3 rounded-md mb-5'>
                             <img src={review?.userimg} alt={review?.username} className='w-16  rounded-full ' />
-                            <h3 className='w-4/12 text-center'>{review?.username}</h3>
+                            <h3 className='w-2/12 text-center'>{review?.username}</h3>
+                            <p className='w-3/12'>{review?.dateFull}</p>
                             <p className='w-5/12 text-justify'>{review?.review_description}</p>
                             <div className='flex items-center w-3/12'>
                                 <StartRating stars={review?.rating}></StartRating>

@@ -11,6 +11,8 @@ import MyServices from "../Pages/MyServices/MyServices";
 import ServiceDetails from "../Components/ServiceDetails/ServiceDetails";
 import MyReviews from "../Pages/MyReviews/MyReviews";
 import EditService from "../Pages/EditService/EditService";
+import EditReview from "../Pages/EditReview/EditReview";
+import Blogs from "../Pages/Blogs/Blogs";
 
 
 export const router = createBrowserRouter([
@@ -57,6 +59,15 @@ export const router = createBrowserRouter([
             {
                 path: "/service-edit/:id",
                 element: <EditService></EditService>
+            },
+            {
+                path:"review-edit/:id",
+                loader: ({params}) => fetch(`http://localhost:5000/single-review/${params.id}`), 
+                element:<EditReview></EditReview>
+            },
+            {
+                path:"/faq",
+                element: <Blogs></Blogs>
             }
         ]
     }

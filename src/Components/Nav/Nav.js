@@ -10,7 +10,7 @@ const Nav = () => {
         <div className='container mx-auto'>
             <header className="p-4 dark:bg-gray-800 dark:text-gray-100">
                 <div className="container flex justify-between h-16 mx-auto">
-                    <Link rel="noopener noreferrer" to="#" aria-label="Back to homepage" className="flex items-center p-2 text-2xl font-bold">
+                    <Link rel="noopener noreferrer" to="/" aria-label="Back to homepage" className="flex items-center p-2 text-2xl font-bold">
                         Unique Photography
                     </Link>
                     <ul className="items-stretch hidden space-x-3 lg:flex">
@@ -37,6 +37,9 @@ const Nav = () => {
                                 </li>
                             </>
                         }
+                         <li className="flex">
+                            <Link rel="noopener noreferrer" to="/faq" className="flex items-center px-4 -mb-1 ">Faq</Link>
+                        </li>
                     </ul>
                     <div className="items-center flex-shrink-0 hidden lg:flex">
                         {

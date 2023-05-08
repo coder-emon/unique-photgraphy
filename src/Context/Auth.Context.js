@@ -25,7 +25,7 @@ const AuthProvider = ({ children }) => {
     const googleSignIn = () => {
         return signInWithPopup(auth, googleProvider)
     }
-
+    
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser)
@@ -44,7 +44,7 @@ const AuthProvider = ({ children }) => {
         user,
         setUser,
         loading,
-        setLoading
+        setLoading,
     }
     return <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
 }
