@@ -1,7 +1,10 @@
 import { Accordion } from 'flowbite-react';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 const Blogs = () => {
+    useEffect(()=>{
+        document.title = 'Unique Photography | Faq'  
+    }, [])
     return (
         <div className='container mx-auto'>
             <Accordion>

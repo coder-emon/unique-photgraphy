@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 const Contact = () => {
+    useEffect(()=>{
+        document.title = 'Unique Photography | Contact';  
+    }, [])
     return (
         <section className="py-10 dark:bg-gray-800 dark:text-gray-50">
             <div className="grid max-w-6xl grid-cols-1 px-6 mx-auto lg:px-8 md:grid-cols-2 md:divide-x">

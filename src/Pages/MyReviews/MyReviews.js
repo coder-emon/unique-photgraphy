@@ -4,20 +4,30 @@ import StartRating from '../../Components/StarRating/StarRating';
 import { Link } from 'react-router-dom';
 
 const MyReviews = () => {
-    const { user } = useContext(AuthContext)
+    const { user, logout } = useContext(AuthContext)
     const [reviews, setReviews] = useState([])
     
 
     
    
     useEffect(() => {
-        fetch(`http://localhost:5000/reviews/?email=${user?.email}`)
-            .then(res => res.json())
+        document.title = "Unique Photography | My Reviews"
+        fetch(`http://localhost:5000/reviews/?email=${user?.email}`,{
+            headers:{
+                authorization:`Bearer ${localStorage.getItem("up-token")}`
+            }
+        })
+            .then(res => {
+                if(res.status == 401 || res.status == 403){
+                    return logout()
+                }
+                return res.json()
+            })
             .then(data => {
                 setReviews(data)
                 console.log(data);
             })
-    }, [user?.email])
+    }, [user?.email, logout])
    
     
     return (

@@ -1,20 +1,29 @@
 import { Carousel } from 'flowbite-react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Services from '../../Components/Services/Services';
 import { Link } from 'react-router-dom';
-
+import "./Home.css";
 const Home = () => {
+    useEffect(()=>{
+        document.title = 'Unique Photography | Home'  
+    }, [])
     return (
         <div>
             <div className='flex items-center container mx-auto py-32'>
-                <div className='w-6/12'>
+                <div className='w-6/12 pr-36'>
                     <h1 className='font-poppins font-semibold ss:text-[72px] text-[52px] text-gray-800'>
                         Capture your
                         <br />
-                        <span className=''>beautiful</span>
+                        <span className='text-gradient'>beautiful</span>
                         <br />
                         moments with us
                     </h1>
+                    <p className='text-xl'>
+                    Everyone wants to keep their memorable day as a photo. If it is a wedding and engagement ceremony, then there is no space to talk about it. So lets colabrate with me and capture the beautiful moments.
+                    </p>
+                    <Link to="/services">
+                    <button className='btn px-3 py-3 bg-teal-300 rounded-md mt-3 text-gray-900 font-bold'>Explore Services</button>
+                    </Link>
                 </div>
                 <div className='w-6/12'>
                     <div className="h-56 sm:h-64 xl:h-96 2xl:h-96">

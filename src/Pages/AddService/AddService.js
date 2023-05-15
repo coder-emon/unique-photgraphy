@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Button, Label, Textarea, TextInput } from 'flowbite-react';
 import { AuthContext } from '../../Context/Auth.Context';
 const AddService = () => {
@@ -22,12 +22,16 @@ const AddService = () => {
         fetch("http://localhost:5000/services/", {
             method: 'POST',
             headers: {
-                "content-type": 'application/json'
+                "content-type": 'application/json',
+                authorization:`Bearer ${localStorage.getItem("up-token")}`
             },
             body: JSON.stringify(service)
         })
         form.reset()
     }
+    useEffect(()=>{
+        document.title = 'Unique Photography | Add Service'  
+    }, [])
     return (
         <div>
             <div className='w-6/12 mx-auto bg-slate-100 p-10 rounded-md shadow-md'>

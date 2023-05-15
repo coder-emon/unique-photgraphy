@@ -29,7 +29,24 @@ const Login = () => {
             .then((result) => {
                 const user = result.user
                 setUser(user)
+                const currentUser = {
+                    email: user.email,
+                }
                 toast.success(`Login successful to ${user.displayName}`)
+                // get jwt token 
+                fetch('http://localhost:5000/jwt',{
+                    method: 'POST',
+                    headers:{
+                        'content-type': 'application/json'
+                    }, 
+                    body: JSON.stringify(currentUser)
+                })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data)
+                    // localStorage is the easiest but the not best place for storing token
+                    localStorage.setItem("up-token", data.token ) 
+                })
                 navigate(from, { replace: true })
             })
             .catch((error) => {
@@ -45,7 +62,24 @@ const Login = () => {
             .then((result) => {
                 const user = result.user
                 setUser(user)
+                const currentUser = {
+                    email: user.email,
+                }
                 toast.success(`Login successful to ${user.displayName}`)
+                // get jwt token 
+                fetch('http://localhost:5000/jwt',{
+                    method: 'POST',
+                    headers:{
+                        'content-type': 'application/json'
+                    }, 
+                    body: JSON.stringify(currentUser)
+                })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data)
+                    // localStorage is the easiest but the not best place for storing token
+                    localStorage.setItem("up-token", data.token ) 
+                })
                 navigate(from, { replace: true })
             })
             .catch((error) => {

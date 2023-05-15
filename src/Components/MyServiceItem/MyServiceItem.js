@@ -1,5 +1,5 @@
 import { Card } from 'flowbite-react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import StarRating from "../StarRating/StarRating"
 const MyServiceItem = ({ service, handleDelete }) => {

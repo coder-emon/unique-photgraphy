@@ -16,6 +16,7 @@ const EditReview = () => {
     const {id} = useParams()
 
     useEffect(() => {
+        document.title = "Unique Photography | My EditReview"
         fetch(`http://localhost:5000/service/${review?.service_id}`)
         .then(res => res.json())
         .then(data => {
@@ -53,12 +54,13 @@ const EditReview = () => {
             method: "PUT",
             headers: {
                 "content-type": "application/json",
+                authorization:`Bearer ${localStorage.getItem("up-token")}`
             },
             body: JSON.stringify(reviewDetails)
         })
             .then(res => res.json())
             .then(data => {
-                
+                toast.success("Review updated")
                 console.log(data);
             })
     }

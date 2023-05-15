@@ -20,6 +20,7 @@ const AuthProvider = ({ children }) => {
         return signInWithEmailAndPassword(auth, email, password)
     }
     const logout = () => {
+        localStorage.removeItem("up-token")
         return signOut(auth)
     }
     const googleSignIn = () => {

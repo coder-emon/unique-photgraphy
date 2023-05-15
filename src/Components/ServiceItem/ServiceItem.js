@@ -1,10 +1,11 @@
 import { Card } from 'flowbite-react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import StartRating from '../StarRating/StarRating';
 
 const ServiceItem = ({ service }) => {
     const { _id, title, description, imgurl, price, avgRating } = service
+    
     return (
         <div>
             <div className="max-w-sm max-h-sm">

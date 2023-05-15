@@ -6,10 +6,11 @@ import { FaStar } from 'react-icons/fa';
 import { AuthContext } from '../../Context/Auth.Context';
 import StartRating from '../StarRating/StarRating';
 import { toast } from 'react-hot-toast';
+import Preloader from '../Preloader/Preloader';
 
 const ServiceDetails = () => {
     const { id } = useParams()
-    const { user } = useContext(AuthContext)
+    const { user, loading, setLoading } = useContext(AuthContext)
     const navigate = useNavigate()
     const [rating, setRating] = useState(null)
     const [hover, setHover] = useState(null)
@@ -17,11 +18,13 @@ const ServiceDetails = () => {
     const [reviews, setReviews] = useState([])
     const [isUpdate, setIsUpdate] = useState(false)
     useEffect(() => {
+        setLoading(true)
         fetch(`http://localhost:5000/service/${id}`)
             .then(res => res.json())
             .then(data => {
                 setService(data)
                 setIsUpdate(false)
+                setLoading(false)
             })
     }, [id, isUpdate])
     useEffect(() => {
@@ -34,6 +37,9 @@ const ServiceDetails = () => {
             })
     }, [id,isUpdate])
     const { _id, title, description, imgurl, price, avgRating } = service
+    useEffect(()=>{
+        document.title = `Unique Photography | ${title}`
+    }, [title])
     const dateNum = new Date().getTime()
     const dateFull = new Date()
     let sum
@@ -66,6 +72,7 @@ const ServiceDetails = () => {
             method: "POST",
             headers: {
                 "content-type": "application/json",
+                authorization:`Bearer ${localStorage.getItem("up-token")}`
             },
             body: JSON.stringify(reviewDetails)
         })
@@ -89,6 +96,7 @@ const ServiceDetails = () => {
             method: "PATCH",
             headers: {
                 "content-type": "application/json",
+                authorization:`Bearer ${localStorage.getItem("up-token")}`
             },
             body: JSON.stringify(SumAvgRating)
         })
@@ -97,6 +105,9 @@ const ServiceDetails = () => {
                 console.log(data)
             })
         form.reset()
+    }
+    if(loading){
+        return <Preloader></Preloader>
     }
     return (
         <div>

@@ -50,11 +50,11 @@ export const router = createBrowserRouter([
             },
             {
                 path: "/services-manager",
-                element: <MyServices></MyServices>
+                element: <PrivateRoute><MyServices></MyServices></PrivateRoute>
             },
             {
                 path: "/reviews",
-                element: <MyReviews></MyReviews>
+                element: <PrivateRoute><MyReviews></MyReviews></PrivateRoute>
             },
             {
                 path: "/service-edit/:id",
@@ -62,7 +62,11 @@ export const router = createBrowserRouter([
             },
             {
                 path:"review-edit/:id",
-                loader: ({params}) => fetch(`http://localhost:5000/single-review/${params.id}`), 
+                loader: ({params}) => fetch(`http://localhost:5000/single-review/${params.id}`,{
+                    headers:{
+                authorization:`Bearer ${localStorage.getItem("up-token")}`
+                    }
+                }), 
                 element:<EditReview></EditReview>
             },
             {
